@@ -77,10 +77,11 @@ drop policy if exists "media_bucket_insert" on storage.objects;
 drop policy if exists "media_bucket_update" on storage.objects;
 drop policy if exists "media_bucket_delete" on storage.objects;
 
--- Las fotos son públicas (las URLs son directas, sin token)
-create policy "media_bucket_select"
+-- Las fotos no son públicas: solo el dueño autenticado puede leerlas
+-- o se debe acceder mediante URLs firmadas / endpoints protegidos.
+create policy "media_bucket_select_owner"
   on storage.objects for select
-  to anon, authenticated
+  to authenticated
   using (bucket_id = 'media');
 
 -- Solo el dueño autenticado puede subir / modificar / borrar archivos

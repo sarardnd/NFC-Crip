@@ -83,6 +83,7 @@ export async function verifyAlbumPin(
   cookieStore.set(`${ACCESS_COOKIE_PREFIX}${album.id}`, createAccessToken(album.id), {
     httpOnly: true,
     sameSite: "lax",
+    secure: true,
     path: "/",
     maxAge: 24 * 60 * 60,
   });

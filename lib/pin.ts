@@ -1,7 +1,19 @@
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "crypto";
 import { headers } from "next/headers";
 
-const SECRET = process.env.COOKIE_SECRET ?? "dev-secret-must-change-in-production";
+function getCookieSecret(): string {
+  const secret = process.env.COOKIE_SECRET;
+
+  if (secret) return secret;
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("COOKIE_SECRET is required in production.");
+  }
+
+  return "dev-secret-must-change-in-production";
+}
+
+const SECRET = getCookieSecret();
 
 // ─── Hashing del PIN (scrypt con sal aleatoria) ───────────────────────────────
 

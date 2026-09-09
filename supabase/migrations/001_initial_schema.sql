@@ -43,5 +43,5 @@ create policy "media_delete_anon"  on public.media  for delete to anon          
 -- ── Bucket de Storage ─────────────────────────────────────
 
 insert into storage.buckets (id, name, public)
-values ('media', 'media', true)
+values ('media', 'media', false)
 on conflict (id) do nothing;
